@@ -15,7 +15,6 @@ public class Board
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
-
     private final WhitePlayer whitePlayer;
     private final BlackPlayer blackPlayer;
     private final Player currentPlayer;
@@ -160,10 +159,8 @@ public class Board
     }
     public static class Builder
     {
-
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
-
         public Builder()
         {
             this.boardConfig = new HashMap<>();
@@ -183,9 +180,5 @@ public class Board
         {
             return new Board(this);
         }
-
-
-
-
     }
 }
