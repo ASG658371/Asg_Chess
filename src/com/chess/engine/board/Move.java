@@ -24,6 +24,10 @@ public abstract class Move
     {
         return this.destinationCoordinate;
     }
+    public Piece getMovedPiece()
+    {
+        return this.movedPiece;
+    }
 
     public abstract Board execute();
     //Since the board class is immutable therefore instead of mutating the existing board we are going to make a new one!
@@ -55,7 +59,7 @@ public abstract class Move
             builder.setPiece(piece);
         }
         //move the moved piece!
-        builder.setPiece(null);
+        builder.setPiece(this.movedPiece.movePiece(this));
         builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
 
         return builder.build();
