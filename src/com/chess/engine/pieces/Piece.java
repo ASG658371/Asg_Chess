@@ -51,7 +51,7 @@ public abstract class Piece
     @Override
     public int hashCode()
     {
-        return  this.cachedHashCode;
+        return this.cachedHashCode;
     }
 
     public int getPiecePosition() {

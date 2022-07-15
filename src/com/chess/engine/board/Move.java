@@ -1,5 +1,6 @@
 package com.chess.engine.board;
 
+import com.chess.engine.pieces.Pawn;
 import com.chess.engine.pieces.Piece;
 
 import static com.chess.engine.board.Board.*;
@@ -25,7 +26,7 @@ public abstract class Move
     @Override
     public int hashCode()
     {
-       final int prime =31;
+       final int prime = 31;
        int result = 1;
        result = prime * result + this.destinationCoordinate;
        result = prime * result + this.movedPiece.hashCode();
@@ -123,6 +124,20 @@ public abstract class Move
         {
             return this.attackedPiece.hashCode() + super.hashCode();
         }
+        @Override
+        public boolean equals(final Object other)
+        {
+            if(this == other)
+            {
+                return true;
+            }
+            if(!(other instanceof AttackMove))
+            {
+                return false;
+            }
+            final AttackMove otherAttackMove = (AttackMove) other;
+            return super.equals(otherAttackMove) && getAttackedPiece().equals(otherAttackMove.getAttackedPiece());
+        }
 
         @Override
         public Board execute()
@@ -184,6 +199,27 @@ public abstract class Move
                         final int destinationCoordinate)
         {
             super(board, movedPiece, destinationCoordinate);
+        }
+        @Override
+        public Board execute()
+        {
+            final Builder builder = new Builder();
+            for(final Piece piece : this.board.currentPlayer().getActivePieces())
+            {
+                if(!this.movedPiece.equals(piece))
+                {
+                    builder.setPiece(piece);
+                }
+            }
+            for(final Piece piece : this.board.currentPlayer().getOpponent().getActivePieces())
+            {
+                builder.setPiece(piece);
+            }
+            final Pawn movedPawn = (Pawn) this.movedPiece.movePiece(this);
+            builder.setPiece(movedPawn);
+            builder.setEnPassantPawn(movedPawn);
+            builder.setMoveMaker(this.board.currentPlayer().getOpponent().getAlliance());
+            return builder.build();
         }
 
     }
